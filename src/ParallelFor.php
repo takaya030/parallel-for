@@ -21,7 +21,7 @@ class ParallelFor
         // pcntl_fork をサポートしていない場合は使用できない
         // PHP SAPI has to be compiled with pcntl module.
         if( ! function_exists('pcntl_fork')) {
-            throw new RuntimeException('This SAPI does not support pcntl functions.');
+            throw new \RuntimeException('This SAPI does not support pcntl functions.');
         }
         
         // デフォルトで array_merge を使用した aggregator を使用する
@@ -45,7 +45,7 @@ class ParallelFor
     public function setNumChilds($num)
     {
         if( ! is_numeric($num)) {
-            throw new InvalidArgumentException('Argument #1($num) must be integer.');
+            throw new \InvalidArgumentException('Argument #1($num) must be integer.');
         }
         
         $this->num_child = $num;
@@ -56,10 +56,10 @@ class ParallelFor
      *
      * @param closure $fund
      */
-    public function setAggregator($func)
+    public function setAggregator(\Closure $func)
     {
-        if( ! $func instanceof Closure) {
-            throw new InvalidArgumentException('Argument #2($callback) must be closure.');
+        if( ! $func instanceof \Closure) {
+            throw new \InvalidArgumentException('Argument #2($callback) must be closure.');
         }
         $this->aggregator = $func;
     }
@@ -72,13 +72,13 @@ class ParallelFor
      * @param array $opt         options for the executor function.
      */
     public function run(array $data, $executor, $opt = array()) {
-        if( ! $executor instanceof Closure) {
-            throw new InvalidArgumentException('Argument #2($executor) must be closure.');
+        if( ! $executor instanceof \Closure) {
+            throw new \InvalidArgumentException('Argument #2($executor) must be closure.');
         }
         
         // 結果を書き出す一時ファイルのプレフィクス
         // Prefix of the shared temporary files.
-        $uniqid = uniqid(get_class($this), true);
+        $uniqid = uniqid(str_replace("\\","_", get_class($this)), true);
         $shared_file_prefix = '.parallel_for_' . $uniqid;
   
         // 一つの子プロセスが処理する要素数を決定
