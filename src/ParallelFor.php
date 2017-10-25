@@ -1,5 +1,7 @@
 <?php
 
+namespace HironobuS;
+
 /**
  * The ParallelFor class provide a way to iterate an array using multi process.
  *
