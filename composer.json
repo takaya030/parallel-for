@@ -1,5 +1,12 @@
 {
+    "name": "hironobu-s/parallel-for",
+    "license": "MIT",
     "require": {
         "phpunit/phpunit": "4.1.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "HironobuS\\": "src/"
+        }
     }
 }
